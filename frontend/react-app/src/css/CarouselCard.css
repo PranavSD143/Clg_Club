@@ -1,0 +1,32 @@
+.nitte-card{
+  color:white;
+  display:flex;
+  flex-direction: column;
+  position:absolute;
+  width:20rem;
+  top:50%;
+  left:10%;
+  z-index: 3;
+  justify-content: center;
+}
+
+.nitte-card p {
+  text-align: left;
+  font-size: 1.4rem;
+}
+
+.nitte-button{
+  text-align: left;
+}
+.nitte-button button{
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 5px;
+  background-color: black;
+  margin-top: 5%;
+  
+}
+
+.nitte-button button:hover{
+  cursor:pointer;
+}
