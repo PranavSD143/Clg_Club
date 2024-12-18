@@ -1,0 +1,44 @@
+.card-container {
+  display: flex;
+  gap: 6rem;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  transition: filter 0.3s ease-in-out;
+}
+
+.card {
+  width: 20rem;
+  height: 25rem;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card.active {
+  position: fixed;
+  width: 70rem;
+  height:40rem;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 5;
+}

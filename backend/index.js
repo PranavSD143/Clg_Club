@@ -126,8 +126,21 @@ app.get("/About us",(req,res)=>{
   //About us page
 });
 
-app.get("./admin",(req,res)=>{
+app.get("/admin",(req,res)=>{
   //
+})
+
+app.get("/latest-event-details",async(req,res)=>{
+  let current_date = new Date().toLocaleDateString();
+  const response = await db.query(
+    `SELECT *
+     FROM your_table_name
+     WHERE your_date_column BETWEEN 
+           TO_DATE($1, 'DD-MM-YYYY') - INTERVAL '5 days' 
+           AND TO_DATE($1, 'DD-MM-YYYY');`,
+    [current_date]
+  );
+  console.log(current_date);
 })
 
 app.listen(5000, () => {

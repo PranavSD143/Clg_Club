@@ -1,35 +1,24 @@
 import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import "../css/Carousel.css";
-import CardDescription from "./CardDescription";
-import EventList from "../Event_links";
 
-export default function MyCarousel() {
+const MyCarousel = () => {
   return (
-    <div
-      style={{ position: "relative", maxHeight: "100vh", minHeight: "50vh" }}>
-      <Carousel
-        showArrows={false}
-        showThumbs={false}
-        showStatus={false}
-        autoPlay={true}
-        interval={3000}
-        infiniteLoop={true}>
-        <div>
-          <img src="./images/img.jpg" alt="img 1" className="responsive" />
-          <CardDescription url="https://www.nmit.ac.in" />
-        </div>
-        <div>
-          <img src="./images/img3.jpg" alt="img 2" className="responsive" />
-          <CardDescription />
-        </div>
-        <div>
-          <img src="./images/img2.jpg" alt="img 3" className="responsive" />
-          <CardDescription />
-        </div>
-      </Carousel>
-    </div>
+    <Carousel>
+      <div>
+        <img src="https://via.placeholder.com/800x400/6c8e77/ffffff?text=Image+1" />
+        <p className="legend">Legend 1</p>
+      </div>
+      <div>
+        <img src="https://via.placeholder.com/800x400/77aaff/ffffff?text=Image+2" />
+        <p className="legend">Legend 2</p>
+      </div>
+      <div>
+        <img src="https://via.placeholder.com/800x400/ff8f8f/ffffff?text=Image+3" />
+        <p className="legend">Legend 3</p>
+      </div>
+    </Carousel>
   );
-}
+};
+
+export default MyCarousel;
