@@ -1,21 +1,27 @@
 import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
+import "../css/carousel.css";
 
 const MyCarousel = () => {
   return (
-    <Carousel>
-      <div>
-        <img src="https://via.placeholder.com/800x400/6c8e77/ffffff?text=Image+1" />
-        <p className="legend">Legend 1</p>
+    <Carousel
+      className="carousel-container"
+      autoFocus={true}
+      autoPlay={true}
+      interval={3000}
+      showArrows={false}
+      showThumbs={false}
+      showStatus={false}
+      infiniteLoop={true}>
+      <div className="carousel-content">
+        <img src="https://placehold.co/300x200" />
       </div>
-      <div>
-        <img src="https://via.placeholder.com/800x400/77aaff/ffffff?text=Image+2" />
-        <p className="legend">Legend 2</p>
+      <div className="carousel-content">
+        <img src="https://placehold.co/300x200" />
       </div>
-      <div>
-        <img src="https://via.placeholder.com/800x400/ff8f8f/ffffff?text=Image+3" />
-        <p className="legend">Legend 3</p>
+      <div className="carousel-content">
+        <img src="https://placehold.co/300x200" />
       </div>
     </Carousel>
   );
