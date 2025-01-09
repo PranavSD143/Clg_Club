@@ -143,6 +143,11 @@ app.get("/latest-event-details",async(req,res)=>{
   console.log(current_date);
 })
 
+app.get("/card-details",async(req,res)=>{
+  const result = await db.query("SELECT * from club_events");
+  res.status(200).json(result.rows);
+})
+
 app.listen(5000, () => {
   console.log(`Running at port 5000`);
 });
