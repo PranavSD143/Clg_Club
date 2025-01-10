@@ -130,21 +130,26 @@ app.get("/admin",(req,res)=>{
   //
 })
 
-app.get("/latest-event-details",async(req,res)=>{
-  let current_date = new Date().toLocaleDateString();
-  const response = await db.query(
-    `SELECT *
-     FROM your_table_name
-     WHERE your_date_column BETWEEN 
-           TO_DATE($1, 'DD-MM-YYYY') - INTERVAL '5 days' 
-           AND TO_DATE($1, 'DD-MM-YYYY');`,
-    [current_date]
-  );
-  console.log(current_date);
-})
+// app.get("/latest-event-details",async(req,res)=>{
+//   let current_date = new Date().toLocaleDateString();
+//   const response = await db.query(
+//     `SELECT *
+//      FROM your_table_name
+//      WHERE your_date_column BETWEEN 
+//            TO_DATE($1, 'DD-MM-YYYY') - INTERVAL '5 days' 
+//            AND TO_DATE($1, 'DD-MM-YYYY');`,
+//     [current_date]
+//   );
+//   res.status(200).json(response.rows);
+// })
 
 app.get("/card-details",async(req,res)=>{
-  const result = await db.query("SELECT * from club_events");
+  const result = await db.query("SELECT * from clubs");
+  res.status(200).json(result.rows);
+})
+
+app.get("/achievements",async(req,res)=>{
+  const result = await db.query("SELECT * from achievements");
   res.status(200).json(result.rows);
 })
 
