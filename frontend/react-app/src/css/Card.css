@@ -42,3 +42,16 @@
   background: rgba(0, 0, 0, 0.2);
   z-index: 5;
 }
+
+.visible{
+  display:block;
+}
+
+.invisible{
+  display:none;
+}
+
+.card-header{
+  display:flex;
+  gap:7em;
+}
