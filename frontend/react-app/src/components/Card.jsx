@@ -43,25 +43,41 @@ const Card = () => {
 
           return (
             <div key={cardId} className={`card ${isActive ? "active" : ""}`}>
-              <header
-                className={`card-header ${isActive ? "visible" : "invisible"}`}>
-                <div className="club-name">{club_name}</div>
-                <img src={picture} alt="Poster image" />
-              </header>
-              <p className={isActive ? "visible" : "invisible"}>
-                {catchy_phrase}
-              </p>
-              <p className={`heads ${isActive ? "visible" : "invisible"}`}>
-                {president}
-              </p>
-              <p className={`heads ${isActive ? "visible" : "invisible"}`}>
-                {vice_president}
-              </p>
-              <div className={`club-info ${isActive ? "info-active" : ""}`}>
-                {isActive ? club_info : `${club_info.slice(0, 50)}...`}
-              </div>
-              {!isActive && (
-                <button onClick={() => handleClick(cardId)}>Read More</button>
+              {isActive ? (
+                <div className="expanded-card-content">
+                  {/* HEADER SECTION */}
+                  <div className="expanded-card-header">
+                    <h2 className="club-name">{club_name}</h2>
+                    <img className="club-logo" src={picture} alt="Club Logo" />
+                  </div>
+
+                  {/* GRID SECTION */}
+                  <div className="expanded-card-grid">
+                    <div className="catchy-phrase">{catchy_phrase}</div>
+                    <div className={`club-info ${isActive ? "active" : ""}`}>
+                      {club_info}
+                    </div>
+                    <div className="leader-info">
+                      <div className="president">President: {president}</div>
+                      <div className="vice-president">
+                        Vice President: {vice_president}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* Default Card View */}
+                  <header className="card-header">
+                    <div className="club-name">{club_name}</div>
+                    <img src={picture} alt="Poster image" />
+                  </header>
+                  <p className="invisible">{catchy_phrase}</p>
+                  <p className="heads invisible">{president}</p>
+                  <p className="heads invisible">{vice_president}</p>
+                  <div className="club-info">{club_info.slice(0, 50)}...</div>
+                  <button onClick={() => handleClick(cardId)}>Read More</button>
+                </>
               )}
             </div>
           );
