@@ -79,16 +79,6 @@ app.get("/",(req,res)=>{
   // Serve static react file
 })
 
-app.get("/CS",(req,res)=>{
-  //Static react path
-})
-app.get("/IS",(req,res)=>{
-  //Static react path
-})
-app.get("/ECE",(req,res)=>{
-  //Static react path
-})
-
 app.get("/signup",(req,res)=>{
   //Serve react page
 })
@@ -151,6 +141,27 @@ app.get("/card-details",async(req,res)=>{
 app.get("/achievements",async(req,res)=>{
   const result = await db.query("SELECT * from achievements");
   res.status(200).json(result.rows);
+})
+
+app.get("/clubs",async(req,res)=>{
+  const result = await db.query("SELECT * FROM clubs");
+  const response = result.rows;
+  res.status(200).json(response);
+})
+
+app.get(`/club/:id`,async(req,res)=>{
+
+  const {id} = req.params;
+
+  try{
+    const result = await db.query("SELECT * FROM CLUBS where id = $1",[id]);
+    const response = result.rows;
+    res.status(200).json(response);
+  }
+  catch{
+    res.status(500).send("Error occured");
+  }
+
 })
 
 app.listen(5000, () => {
