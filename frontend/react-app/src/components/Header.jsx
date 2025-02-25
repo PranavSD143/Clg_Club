@@ -13,11 +13,11 @@ function Header() {
         <Link to="/clubs">
           <div className="li-styling">Clubs</div>
         </Link>
-        <Link to="/admin">
+        <Link to="/adminPage">
           <div
             className="li-styling"
             style={{ backgroundColor: "white", color: "black" }}>
-            Admin
+            Login
           </div>
         </Link>
         <Search />
