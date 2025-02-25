@@ -10,9 +10,8 @@ const ClubPage = () => {
       .then((response) => response.json())
       .then((data) => setClub(data[0]))
       .catch((error) => console.error("Error fetching club:", error));
-  }, [id]);
+  }, []);
 
-  console.log(club);
   if (!club) return <h2>Loading...</h2>;
 
   return (

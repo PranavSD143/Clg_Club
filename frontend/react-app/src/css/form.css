@@ -1,0 +1,32 @@
+
+.table-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:2rem;
+  height:75vh;
+  width:50vw;
+  background-color: blue;
+  border-radius: 10px;
+}
+
+.main-container{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height:100vh;
+}
+input{
+  height:2rem;
+  width:20rem;
+  border:1px solid black;
+  border-radius: 10px;
+}
+
+.labels{
+  display:inline-block;
+  width:9rem;
+  text-align: right;
+  margin-right: 0.2em;
+}

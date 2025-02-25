@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import DOMPurify from "dompurify"; // Import DOMPurify
 import "../css/Card.css";
 
 const Card = () => {
@@ -24,6 +25,12 @@ const Card = () => {
 
   const handleClick = (id) => setActiveCard(id);
   const handleClose = () => setActiveCard(null);
+
+  const getTextSnippet = (html, length) => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = DOMPurify.sanitize(html); // Sanitize input to prevent XSS
+    return tempDiv.textContent.slice(0, length) + "..."; // Extract text and slice
+  };
 
   if (error) return <div>Error: {error}</div>;
 
@@ -54,9 +61,9 @@ const Card = () => {
                   {/* GRID SECTION */}
                   <div className="expanded-card-grid">
                     <div className="catchy-phrase">{catchy_phrase}</div>
-                    <div className={`club-info ${isActive ? "active" : ""}`}>
-                      {club_info}
-                    </div>
+                    <div
+                      className={`club-info ${isActive ? "active" : ""}`}
+                      dangerouslySetInnerHTML={{ __html: club_info }}></div>
                     <div className="leader-info">
                       <div className="president">President: {president}</div>
                       <div className="vice-president">
@@ -75,7 +82,10 @@ const Card = () => {
                   <p className="invisible">{catchy_phrase}</p>
                   <p className="heads invisible">{president}</p>
                   <p className="heads invisible">{vice_president}</p>
-                  <div className="club-info">{club_info.slice(0, 50)}...</div>
+                  {/* Display only a safe, plain-text snippet */}
+                  <div className="club-info">
+                    {getTextSnippet(club_info, 50)}
+                  </div>
                   <button onClick={() => handleClick(cardId)}>Read More</button>
                 </>
               )}
