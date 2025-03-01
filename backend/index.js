@@ -31,10 +31,10 @@ app.use(
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookies:{
-      secure:false,
-      maxAge:1000*60*60*24
-    }
+    cookies: {
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24,
+    },
   })
 );
 
@@ -90,7 +90,7 @@ passport.use(
           [profile.id, profile.email, profile.name]
         );
 
-        return done(null,create.rows[0]);
+        return done(null, create.rows[0]);
       } catch (err) {}
       return done(null, profile);
     }
@@ -150,13 +150,12 @@ app.post(
     failureMessage: true,
   }),
   (req, res) => {
-
-    if(!req.user)
+    if (!req.user)
       return res.status(401).json({ success: false, message: "Unauthorized" });
 
     res.status(200).json({
-      userID:req.user.id,
-      success:true
+      userID: req.user.id,
+      success: true,
     });
   }
 );
@@ -185,7 +184,9 @@ app.get("/card-details", async (req, res) => {
 
 app.post("/register-club", async (req, res) => {
   const data = req.body;
+  console.log(req.user);
   const userId = req.user.id;
+
   try {
     const result = await db.query(
       "INSERT INTO CLUBS(club_name,president,vice_president,contact_no,club_info,catchy_phrase,picture) values ($1,$2,$3,$4,$5,$6,$7) RETURNING id",
@@ -199,10 +200,13 @@ app.post("/register-club", async (req, res) => {
         "In progress",
       ]
     );
-    await db.query('INSERT INTO registration(club_name,status,user_id) VALUES ($1,$2)',[data.clubName,'pending',userId]);
+    await db.query(
+      "INSERT INTO registration(club_name,status,userid,id) VALUES ($1,$2,$3,$4)",
+      [data.clubName, "pending", userId, result.rows[0].id]
+    );
     res.status(200).json({
       status: "Success",
-      id: result.rows[0],
+      id: result.rows[0].id,
     });
   } catch (error) {
     console.log(error);
@@ -210,16 +214,22 @@ app.post("/register-club", async (req, res) => {
   }
 });
 
-app.post("/info/:id", async (req, res) => {
-  const  {id}  = req.params;
+app.patch("/info/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
   const userId = req.user.id;
-  const data = req.body.content;
+  const data = req.body;
+  console.log(data);
   try {
     const result = await db.query(
-      "UPDATE clubs SET club_info = $1 WHERE id = $2",
-      [data.content, id]
+      "UPDATE clubs SET club_info = $1, catchy_phrase = $2 WHERE id = $3",
+      [data.club_info,data.catchy_phrase, id]
     );
-    await db.query("UPDATE registration SET status = 'completed' WHERE id = $1",[userId]);
+    const register = await db.query(
+      "UPDATE registration SET status = 'completed' WHERE id = $1",
+      [id]
+    );
+
     res.status(200).json("Success");
   } catch (err) {
     console.log(err);
@@ -227,10 +237,36 @@ app.post("/info/:id", async (req, res) => {
   }
 });
 
-app.get("/achievements", async (req, res) => {
-  const result = await db.query("SELECT * from achievements");
-  res.status(200).json(result.rows);
+app.patch("/update/:id", async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+  try {
+    const result = await db.query(
+      "UPDATE CLUBS SET club_name = $1 , president = $2 , vice_president = $3 , contact_no = $4 WHERE id = $5 RETURNING id",
+      [data.clubName, data.presidentName, data.vp, data.contactNo,id]
+    );
+    console.log(result.rows);
+    res.status(200).json({
+      status: "Success",
+      id: result.rows[0].id,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Error occured");
+  }
 });
+
+app.delete('/delete/:id',async(req,res)=>{
+  const {id} = req.params;
+  await db.query("DELETE FROM CLUBS WHERE id = $1",[id]);
+  await db.query("DELETE FROM REGISTRATION WHERE id = $1",[id]);
+  res.status(200).json("Success");
+})
+
+// app.get("/achievements", async (req, res) => {
+//   const result = await db.query("SELECT * from achievements");
+//   res.status(200).json(result.rows);
+// });
 
 app.get("/clubs", async (req, res) => {
   const result = await db.query("SELECT * FROM clubs");
@@ -240,6 +276,7 @@ app.get("/clubs", async (req, res) => {
 
 app.get(`/club/:id`, async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   try {
     const result = await db.query("SELECT * FROM CLUBS where id = $1", [id]);
     const response = result.rows;
@@ -249,19 +286,17 @@ app.get(`/club/:id`, async (req, res) => {
   }
 });
 
-app.get("/adminPage", async(req, res) => {
-  if(req.isAuthenticated())
-  {
+app.get("/adminPage", async (req, res) => {
+  if (req.isAuthenticated()) {
     const id = req.user.id;
-    const result = await db.query('SELECT * FROM REGISTRATION WHERE userId = $1',[id]);
-    res.status(200).send("Success");
-  }
-  else
-    res.status(404).json({status:'failes'});
-
+    const result = await db.query(
+      "SELECT * FROM REGISTRATION WHERE userId = $1",
+      [id]
+    );
+    res.status(200).json(result.rows);
+  } else res.status(404).json({ status: "failes" });
 });
 
 app.listen(5000, () => {
   console.log(`Running at port 5000`);
 });
-
