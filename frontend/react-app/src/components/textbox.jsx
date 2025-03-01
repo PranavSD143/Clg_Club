@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Quill from "quill/core";
 import "quill/dist/quill.snow.css";
 
@@ -47,6 +48,7 @@ Quill.register("formats/size", SizeStyle);
 
 function CustomQuillEditor({ register }) {
   const quillRef = useRef(null);
+  const navigate = useNavigate();
   const [quillInstance, setQuillInstance] = useState(null);
   const [editorContent, setEditorContent] = useState(null);
 
@@ -88,15 +90,67 @@ function CustomQuillEditor({ register }) {
     };
   }, [quillInstance]); // Dependency array ensures this effect runs only when quillInstance changes
 
-  console.log(register.id);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(`/club/${register}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        });
+
+        const data = await response.json();
+
+        if (data && data[0]?.club_info && quillInstance) {
+          // Extract club_info and catchy_phrase from backend response
+          const clubInfo = data[0].club_info || "";
+          const catchyPhrase = data[0].catchy_phrase || "";
+
+          // Merge both into one formatted HTML content
+          const fullContent = `${clubInfo} <br><strong>Catchy Phrase:</strong> ${catchyPhrase}`;
+
+          // Set the merged content in Quill editor
+          quillInstance.clipboard.dangerouslyPasteHTML(fullContent);
+          setEditorContent(fullContent);
+        }
+      } catch (error) {
+        console.error("Failed to fetch existing content:", error);
+      }
+    }
+
+    if (register && quillInstance) {
+      fetchData();
+    }
+  }, [register, quillInstance]);
+
+  function extractCatchyPhraseHTML(editorContent) {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = editorContent;
+
+    const regex = /(.*?)(<[^>]*>catchy phrase:<\/[^>]*>)(.*)/i;
+    const match = tempDiv.innerHTML.match(regex);
+
+    if (match) {
+      return {
+        club_info: match[1].trim(), // Keep HTML before "catchy phrase:"
+        catchy_phrase: match[3].trim(), // Keep HTML after "catchy phrase:"
+      };
+    }
+
+    return { club_info: editorContent.trim(), catchy_phrase: null }; // No catchy phrase found
+  }
+
   const entry = async () => {
-    const xyz = await fetch(`/info/${register.id}`, {
-      method: "POST",
+    console.log(register);
+    const xyz = await fetch(`/info/${register}`, {
+      method: "PATCH",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ content: editorContent }),
+      credentials: "include",
+      body: JSON.stringify(extractCatchyPhraseHTML(editorContent)),
     });
+    navigate("/list");
   };
   return (
     <div>

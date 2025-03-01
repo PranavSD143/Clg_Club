@@ -1,7 +1,7 @@
-.rich-text-container{
+.login-form{
   display:flex;
+  flex-direction: column;
+  height:100vh;
   justify-content: center;
-  height:75vh;
   align-items: center;
 }
-

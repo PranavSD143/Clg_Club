@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import "../css/login_form.css";
 
-function LoginForm({ userID, status }) {
+function LoginForm({ status, authenticate }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,16 +16,18 @@ function LoginForm({ userID, status }) {
     });
 
     const data = await response.json();
+    console.log(data);
 
     if (data.success) {
       status(true);
+      authenticate(true);
     } else {
       alert("Login failed!");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="login-form" onSubmit={handleSubmit}>
       <input
         type="email"
         placeholder="Email"
