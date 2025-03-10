@@ -1,0 +1,150 @@
+.unique-hero {
+  position: relative;
+  background: url("https://source.unsplash.com/1600x900/?coding,technology") no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+}
+
+.dim-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.unique-hero h1 {
+  font-size: 50px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.unique-hero p {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+/* Ensure Content Stays Above Particles */
+.primary-content {
+  position: relative;
+  z-index: 10;  /* Increased to stay above particles */
+}
+
+/* Make Sure Particles Stay Behind */
+#dynamic-effects {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;  /* Lower z-index */
+}
+
+/* Button Styling */
+.call-to-action {
+  background: transparent;
+  color: gold;
+  width: 25%;
+  padding: 10px 20px;
+  border: 2px solid gold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 8px;
+  position: relative;  /* Ensure it stays on top */
+  z-index: 11;  /* Even higher than primary-content */
+}
+
+.call-to-action:hover {
+  background: gold;
+  color: black;
+}
+
+/* Sections */
+.insight-section,
+.gatherings,
+.advantages {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.shiny-heading {
+  font-size: 35px;
+  color: gold;
+}
+
+/* Event Section */
+.gathering-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Cards */
+.highlight-box {
+  background: rgba(255, 215, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  text-align: center;
+  max-width: 400px;
+  flex: 1;
+  transition: transform 0.3s ease-in-out;
+}
+
+.highlight-box:hover {
+  transform: scale(1.05);
+}
+
+.highlight-box img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.discover-btn {
+  background: transparent;
+  color: gold;
+  padding: 10px 20px;
+  border: 2px solid gold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 8px;
+}
+
+.discover-btn:hover {
+  background: gold;
+  color: black;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gathering-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Footer */
+.bottom-section {
+  text-align: center;
+  padding: 20px;
+  background: black;
+}
+
+.icon-links a {
+  color: gold;
+  font-size: 24px;
+  margin: 0 10px;
+  transition: 0.3s;
+}
+
+.icon-links a:hover {
+  color: darkgoldenrod;
+}

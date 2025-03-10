@@ -6,6 +6,9 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Marquee from "react-fast-marquee";
 import "../css/marquee.css";
+import Cards from "../components/Card.jsx";
+import Ann from "../components/ann";
+
 export default function Home() {
   return (
     <div>
@@ -14,8 +17,10 @@ export default function Home() {
       <Marquee speed={90} className="marquee-container">
         Sample text for testing
       </Marquee>
-      <Card />
+      <Cards />
+      <Ann />
       <Announcement />
+
       <Footer />
     </div>
   );

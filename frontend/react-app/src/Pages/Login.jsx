@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import List from "../components/List";
-import LoginForm from "../components/login_form";
+import LoginForm from "../components/login_form.jsx";
 
 function Login({ isAuthenticated }) {
   const [loginSuccess, loggedIn] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/login_form.css";
+import loginForm from "../css/login_form.module.css";
 
 function LoginForm({ status, authenticate }) {
   const [email, setEmail] = useState("");
@@ -27,7 +27,7 @@ function LoginForm({ status, authenticate }) {
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
+    <form className={loginForm.loginForm} onSubmit={handleSubmit}>
       <input
         type="email"
         placeholder="Email"

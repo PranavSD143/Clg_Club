@@ -1,0 +1,124 @@
+/* Main Wrapper */
+.cosmicShell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url("../images/Moon2011.png") no-repeat center center/cover;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Glassmorphism Box */
+.lunarPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  height: 75vh;
+  width: 50vw;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(15px);
+  padding: 20px;
+  /* transition: transform 0.3s ease-in-out; */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* .lunarPanel:hover {
+  transform: perspective(1px) scale(1.1);
+  will-change: transform;
+} */
+
+/* Form Labels */
+.orbitTags {
+  display: inline-block;
+  width: 9rem;
+  text-align: right;
+  margin-right: 0.2em;
+  font-weight: bold;
+}
+
+/* Interactive Inputs */
+.galacticField {
+  width: 95%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  transition: 0.3s;
+  font-size: 16px;
+  outline: none;
+  display: block;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.galacticField::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.galacticField:focus {
+  border: 2px solid #ff8c00;
+  box-shadow: 0 0 10px rgba(255, 140, 0, 0.6);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Upload Button */
+.astralUpload {
+  width: auto;
+  cursor: pointer;
+}
+
+/* Action Button */
+.jupiterTrigger {
+  background: #4b3bfa;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  font-weight: bold;
+  font-size: 2rem;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  border: none;
+}
+
+.jupiterTrigger:hover {
+  background: #000000;
+  transform: scale(1.1);
+}
+
+/* Title Styling */
+.solarTitle {
+  color: black;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+/* Falling Particles */
+.stardustEffect {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  opacity: 0.8;
+  border-radius: 50%;
+  animation: celestialFall 3s linear infinite;
+}
+
+@keyframes celestialFall {
+  from {
+    transform: translateY(-100vh);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}

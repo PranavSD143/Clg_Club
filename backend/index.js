@@ -184,12 +184,12 @@ app.get("/card-details", async (req, res) => {
 
 app.post("/register-club", async (req, res) => {
   const data = req.body;
-  console.log(req.user);
+  console.log(data);
   const userId = req.user.id;
 
   try {
     const result = await db.query(
-      "INSERT INTO CLUBS(club_name,president,vice_president,contact_no,club_info,catchy_phrase,picture) values ($1,$2,$3,$4,$5,$6,$7) RETURNING id",
+      "INSERT INTO CLUBS(club_name,president,vice_president,contact_no,club_info,catchy_phrase,picture,nature) values ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id",
       [
         data.clubName,
         data.presidentName,
@@ -198,6 +198,7 @@ app.post("/register-club", async (req, res) => {
         "In progress",
         "In progress",
         "In progress",
+        data.clubType
       ]
     );
     await db.query(
@@ -263,10 +264,10 @@ app.delete('/delete/:id',async(req,res)=>{
   res.status(200).json("Success");
 })
 
-// app.get("/achievements", async (req, res) => {
-//   const result = await db.query("SELECT * from achievements");
-//   res.status(200).json(result.rows);
-// });
+app.get("/achievements", async (req, res) => {
+  const result = await db.query("SELECT * from achievements");
+  res.status(200).json(result.rows);
+});
 
 app.get("/clubs", async (req, res) => {
   const result = await db.query("SELECT * FROM clubs");

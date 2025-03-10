@@ -9,6 +9,7 @@ import Form from "./components/form";
 import ClubPage from "./Pages/Club_page";
 import NoPage from "./Pages/NoPage";
 import ClubCreation from "./Pages/club_creation";
+import Blank from "./components/Card";
 
 function TextboxWrapper({ authenticated }) {
   const { id } = useParams(); // Retrieve the ID here
@@ -20,11 +21,12 @@ function FormWrapper({ authenticated }) {
   return authenticated ? <Form existing={id} /> : <NoPage />;
 }
 
-function App() {
+export default function App() {
   const [authenticated, authenticate] = useState(false);
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/blank" element={<Blank />} />
         <Route path="/" element={<Home />} />
         <Route path="/clubs" element={<Clubs />} />
         <Route
@@ -57,5 +59,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;

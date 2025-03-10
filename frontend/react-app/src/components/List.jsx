@@ -1,54 +1,79 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/list.css";
+import styles from "../css/list.module.css";
+import backImage from "../images/Darkshell2012.jpg";
 
 export default function List() {
   const [list, updateList] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
-    const pendingList = async () => {
+    const fetchPendingList = async () => {
       const response = await fetch("/adminPage");
       const data = await response.json();
       updateList(data);
     };
-    pendingList();
+    fetchPendingList();
   }, []);
-  const handleClick = async (entry) => {
-    if (entry.status.trim().toLowerCase() == "pending") {
+
+  const handleClick = (entry) => {
+    if (entry.status.trim().toLowerCase() === "pending") {
       console.log(entry.id);
       navigate(`/textbox/${entry.id}`);
     }
   };
-  const handleEditClick = async (clubId) => {
+
+  const handleEditClick = (clubId) => {
     navigate(`/form/${clubId}`);
   };
 
   const handleDelete = async (id) => {
-    const response = await fetch(`/delete/${id}`, {
+    await fetch(`/delete/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
-    const newList = async () => {
+
+    const refreshList = async () => {
       const response = await fetch("/adminPage");
       const data = await response.json();
       updateList(data);
     };
-    newList();
+    refreshList();
   };
+
   const registerClub = () => {
     navigate("/club_creation");
   };
-  console.log(list);
+
   return (
-    <div>
-      <button onClick={registerClub}>Register Club</button>
-      <ul className="user-work-list">
+    <div
+      className={styles.mainContainer}
+      style={{
+        backgroundImage: `url(${backImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}>
+      <button className={styles.customButton} onClick={registerClub}>
+        Register Club
+      </button>
+      <ul className={styles.clubList}>
         {list.map((entry) => (
-          <li key={entry.club_name} onClick={() => handleClick(entry)}>
-            <div className="pending-div">{entry.status}</div>
-            <div className="pending-div">{entry.club_name}</div>
-            <button onClick={() => handleEditClick(entry.id)}>Edit</button>
-            <button onClick={() => handleDelete(entry.id)}>Delete</button>
+          <li
+            key={entry.club_name}
+            className={styles.clubItem}
+            onClick={() => handleClick(entry)}>
+            <div className={styles.statusLabel}>{entry.status}</div>
+            <div className={styles.statusLabel}>{entry.club_name}</div>
+            <button
+              className={styles.customButton}
+              onClick={() => handleEditClick(entry.id)}>
+              Edit
+            </button>
+            <button
+              className={styles.customButton}
+              onClick={() => handleDelete(entry.id)}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
