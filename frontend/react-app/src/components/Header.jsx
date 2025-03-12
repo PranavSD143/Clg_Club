@@ -4,7 +4,7 @@ import styles from "../css/Headers.module.css";
 import Search from "./Search";
 import logo from "../images/nitte_logo1.png";
 
-function Header() {
+function Header({ log }) {
   return (
     <header className={styles.header}>
       <nav className={styles.navBar}>
@@ -25,6 +25,11 @@ function Header() {
               className={styles.liStyling}
               style={{ backgroundColor: "white", color: "black" }}>
               Login
+            </div>
+          </Link>
+          <Link to="/logout">
+            <div className={styles.liStyling} onClick={log}>
+              Logout
             </div>
           </Link>
           <Search />

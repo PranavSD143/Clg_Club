@@ -36,19 +36,20 @@ app.use(
       secure: false,
       maxAge: 1000 * 60 * 60 * 24,
       httpOnly: true,
-      sameSite: "None"
+      sameSite: "None",
     },
   })
 );
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(cors({
-  origin:"http://localhost:3000",
-  credentials:true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 passport.use(
   "local",
@@ -169,6 +170,24 @@ app.post(
   }
 );
 
+app.post("/logout", (req, res) => {
+    // if (error) {
+    //   return res.status(500).json({ status: "Logout error", message: error });
+    // }
+  console.log("Reached");
+    req.session.destroy((error) => {
+      if (error) {
+        return res.status(500).json({ status: "Server side logout error" });
+      }
+
+      res.clearCookie("connect.sid");
+      return res.status(200).json({status:"Success"});
+    });
+  }
+  );
+
+
+
 app.get("/About us", (req, res) => {
   //About us page
 });
@@ -207,7 +226,7 @@ app.post("/register-club", async (req, res) => {
         "In progress",
         "In progress",
         "In progress",
-        data.clubType
+        data.nature,
       ]
     );
     await db.query(
@@ -233,7 +252,7 @@ app.patch("/info/:id", async (req, res) => {
   try {
     const result = await db.query(
       "UPDATE clubs SET club_info = $1, catchy_phrase = $2 WHERE id = $3",
-      [data.club_info,data.catchy_phrase, id]
+      [data.club_info, data.catchy_phrase, id]
     );
     const register = await db.query(
       "UPDATE registration SET status = 'completed' WHERE id = $1",
@@ -253,7 +272,7 @@ app.patch("/update/:id", async (req, res) => {
   try {
     const result = await db.query(
       "UPDATE CLUBS SET club_name = $1 , president = $2 , vice_president = $3 , contact_no = $4 WHERE id = $5 RETURNING id",
-      [data.clubName, data.presidentName, data.vp, data.contactNo,id]
+      [data.clubName, data.presidentName, data.vp, data.contactNo, id]
     );
     console.log(result.rows);
     res.status(200).json({
@@ -266,12 +285,12 @@ app.patch("/update/:id", async (req, res) => {
   }
 });
 
-app.delete('/delete/:id',async(req,res)=>{
-  const {id} = req.params;
-  await db.query("DELETE FROM CLUBS WHERE id = $1",[id]);
-  await db.query("DELETE FROM REGISTRATION WHERE id = $1",[id]);
+app.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  await db.query("DELETE FROM CLUBS WHERE id = $1", [id]);
+  await db.query("DELETE FROM REGISTRATION WHERE id = $1", [id]);
   res.status(200).json("Success");
-})
+});
 
 app.get("/achievements", async (req, res) => {
   const result = await db.query("SELECT * from achievements");
@@ -289,7 +308,8 @@ app.get(`/club/:id`, async (req, res) => {
   console.log(id);
   try {
     const result = await db.query("SELECT * FROM CLUBS where id = $1", [id]);
-    const response = result.rows;
+    const response = result.rows[0];
+    console.log(response);
     res.status(200).json(response);
   } catch {
     res.status(500).send("Error occured");
@@ -297,7 +317,6 @@ app.get(`/club/:id`, async (req, res) => {
 });
 
 app.get("/adminPage", async (req, res) => {
-  console.log(req.user);
   if (req.isAuthenticated()) {
     const id = req.user.id;
     const result = await db.query(
@@ -308,28 +327,27 @@ app.get("/adminPage", async (req, res) => {
   } else res.status(404).json({ status: "failing" });
 });
 
-app.get("/search-results/:text",async(req,res)=>{
+app.get("/search-results/:text", async (req, res) => {
+  const { text } = req.params;
 
-  const {text} = req.params;
-
-  try{
+  try {
     const searchTerm = `%${text}%`;
-    const response = await db.query("SELECT * FROM clubs Where club_name ILIKE $1 OR club_info ILIKE $1",[searchTerm]);
+    const response = await db.query(
+      "SELECT * FROM clubs Where club_name ILIKE $1 OR club_info ILIKE $1",
+      [searchTerm]
+    );
     const data = response.rows;
     res.status(200).json(data);
-  }
-  catch(error){
+  } catch (error) {
     res.status(500).send("Error occured");
     console.log(error);
   }
 });
 
-app.get("/authenticate",(req,res)=>{
-  if(req.isAuthenticated())
-    res.status(200).json({status:"success"});
-  else
-    res.json({status:"failed"});
-})
+app.get("/authenticate", (req, res) => {
+  if (req.isAuthenticated()) res.status(200).json({ status: "success" });
+  else res.json({ status: "failed" });
+});
 
 app.listen(5000, () => {
   console.log(`Running at port 5000`);

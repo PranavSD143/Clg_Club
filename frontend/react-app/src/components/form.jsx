@@ -16,13 +16,20 @@ function Registration({ onSuccess, existing }) {
   useEffect(() => {
     async function check() {
       if (existing) {
-        const clubDetails = await fetch(`/club/${existing}`);
+        const clubDetails = await fetch(
+          `http://localhost:5000/club/${existing}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
         const data = await clubDetails.json();
-        updateName(data[0].club_name);
-        updatePresidentName(data[0].president);
-        updatevpName(data[0].vice_president);
-        updateNo(data[0].contact_no);
-        setClubType(data[0].club_type || "Select Club Type");
+        console.log(data);
+        updateName(data.club_name);
+        updatePresidentName(data.president);
+        updatevpName(data.vice_president);
+        updateNo(Number(data.contact_no));
+        setClubType(data.club_type || "Select Club Type");
       }
     }
     check();
@@ -50,12 +57,12 @@ function Registration({ onSuccess, existing }) {
       presidentName: presidentName,
       vp: vp,
       contactNo: contactNo,
+      nature: clubType,
     };
 
     try {
       let response;
       if (!existing) {
-        console.log(formData);
         response = await fetch("http://localhost:5000/register-club", {
           method: "POST",
           headers: {
@@ -76,7 +83,7 @@ function Registration({ onSuccess, existing }) {
       }
 
       const result = await response.json();
-      if (result.status === "Success") {
+      if (result.status.toLowerCase() === "success") {
         if (!existing) {
           onSuccess(result.id);
           alert("Club registered successfully!");

@@ -20,19 +20,20 @@ export default function List() {
     fetchPendingList();
   }, []);
 
-  const handleClick = (entry) => {
-    if (entry.status.trim().toLowerCase() === "pending") {
-      console.log(entry.id);
-      navigate(`/textbox/${entry.id}`);
-    }
-  };
+  // const handleClick = (entry) => {
+  //   if (entry.status.trim().toLowerCase() === "pending") {
+  //     console.log(entry.id);
+  //     navigate(`/textbox/${entry.id}`);
+  //   }
+  // };
 
   const handleEditClick = (clubId) => {
+    console.log("Reaching" + clubId);
     navigate(`/form/${clubId}`);
   };
 
   const handleDelete = async (id) => {
-    await fetch(`/delete/${id}`, {
+    await fetch(`http://localhost:5000/delete/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -66,10 +67,7 @@ export default function List() {
       </button>
       <ul className={styles.clubList}>
         {list.map((entry) => (
-          <li
-            key={entry.club_name}
-            className={styles.clubItem}
-            onClick={() => handleClick(entry)}>
+          <li key={entry.club_name} className={styles.clubItem}>
             <div className={styles.statusLabel}>{entry.status}</div>
             <div className={styles.statusLabel}>{entry.club_name}</div>
             <button

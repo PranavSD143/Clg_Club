@@ -20,7 +20,6 @@ function Login({ isAuthenticated }) {
   }, []);
   return (
     <div>
-      {/* <Header /> */}
       {!loginSuccess ? (
         <LoginForm status={loggedIn} authenticate={isAuthenticated} />
       ) : (

@@ -11,7 +11,6 @@ import Ann from "../components/ann";
 export default function Home() {
   return (
     <div>
-      <Header />
       <MyCarousel />
       <Marquee speed={90} className={styles.marqueeContainer}>
         Sample text for testing

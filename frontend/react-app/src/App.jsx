@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import Clubs from "./Pages/Clubs";
+import Header from "./components/Header.jsx";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Textbox from "./components/textbox";
@@ -21,36 +22,35 @@ function FormWrapper({ authenticated }) {
   return authenticated ? <Form existing={id} /> : <NoPage />;
 }
 
-// export default async function Authentication({ children }) {
-//   const response = await fetch("http://localhost:5000/authenticate", {
-//     method: "GET",
-//     credentials: "include",
-//   });
-//   const result = await response.json();
-//   console.log(result);
-//   return result.status == "success" ? children[0] : children[1];
-// }
-
 export default function App() {
-  // const [authenticated, authenticate] = useState(false);
-  // useEffect(() => {
-  //   console.log(authenticated);
-  //   async function authentication() {
-  //     const response = await fetch("http://localhost:5000/authenticate", {
-  //       method: "GET",
-  //       credentials: "include",
-  //     });
-  //     const result = await response.json();
-  //     console.log(result);
-  //     if (result.status == "success") {
-  //       authenticate(true);
-  //     } else authenticate(false);
-  //   }
-  //   authentication();
-  // }, [authenticated]);
+  const [authenticated, authenticate] = useState(false);
+  const logout = async () => {
+    const response = await fetch("http://localhost:5000/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    const data = await response.json();
+    if (data.status == "Success") authenticate(false);
+    else alert("Failed to logout");
+  };
+
+  useEffect(() => {
+    async function authentication() {
+      const response = await fetch("http://localhost:5000/authenticate", {
+        method: "GET",
+        credentials: "include",
+      });
+      const result = await response.json();
+      if (result.status == "success") {
+        authenticate(true);
+      } else authenticate(false);
+    }
+    authentication();
+  }, [authenticated]);
 
   return (
     <BrowserRouter>
+      <Header log={logout} />
       <Routes>
         <Route path="/blank" element={<Blank />} />
         <Route path="/" element={<Home />} />
@@ -58,9 +58,7 @@ export default function App() {
         <Route
           path="/adminPage"
           element={
-            <Authentication>
-              <Login isAuthenticated={authenticate} /> <List />
-            </Authentication>
+            !authenticated ? <Login isAuthenticated={authenticate} /> : <List />
           }
         />
         <Route
@@ -73,10 +71,11 @@ export default function App() {
         <Route
           path="/club_creation"
           element={
-            <Authentication>
+            authenticated ? (
               <ClubCreation />
+            ) : (
               <Login isAuthenticated={authenticate} />
-            </Authentication>
+            )
           }
         />
         <Route path="/list" element={authenticated ? <List /> : <NoPage />} />
@@ -84,6 +83,7 @@ export default function App() {
           path="/form/:id"
           element={<FormWrapper authenticated={authenticated} />}
         />
+        <Route path="/logout" element={!authenticated ? <Home /> : <List />} />
       </Routes>
     </BrowserRouter>
   );
