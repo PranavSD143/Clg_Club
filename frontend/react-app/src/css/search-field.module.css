@@ -1,12 +1,12 @@
 
 
-.search-container {
+.searchContainer {
   position: relative;
   width: 100%;
   max-width: 300px;
 }
 
-.search-field {
+.searchField {
   width: 100%;
   padding: 10px;
   border-radius: 5px;
@@ -15,7 +15,7 @@
   font-size: 16px;
 }
 
-.search-dropdown {
+.searchDropdown {
   position: absolute;
   width: 100%;
   background: white;
@@ -29,12 +29,12 @@
   overflow-y: auto;
 }
 
-.search-result {
+.searchResult {
   padding: 10px;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.search-result:hover {
+.searchResult:hover {
   background: #f0f0f0;
 }

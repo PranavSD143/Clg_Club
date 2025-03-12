@@ -1,4 +1,4 @@
-.nav-bar {
+.navBar {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Pushes content to edges */
@@ -6,29 +6,29 @@
   background-color: #F8F9FA;
 }
 
-.nav-left {
+.navLeft {
   display: flex;
   align-items: center;
 }
 
-.nav-right {
+.navRight {
   display: flex;
   align-items: center;
   gap: 20px; /* Adds space between links */
 }
 
-.nav-logo {
+.navLogo {
   height: 50px; /* Adjust logo size */
   margin-right: 20px; /* Space between logo and links */
 }
 
-#logo-container{
+#logoContainer{
 
 }
-.nav-bar a{
+.navBar a{
   text-decoration: none;
 }
-.nav-bar div:hover{
+.navBar div:hover{
   cursor: pointer;
 }
 
@@ -41,7 +41,7 @@
   width:100%;
 }
 
-.li-styling{
+.liStyling{
   margin-top:0.7rem;
   margin-bottom:0.7rem;
   border: 1px solid black;

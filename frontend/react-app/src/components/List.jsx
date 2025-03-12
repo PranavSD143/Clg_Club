@@ -9,8 +9,12 @@ export default function List() {
 
   useEffect(() => {
     const fetchPendingList = async () => {
-      const response = await fetch("/adminPage");
+      const response = await fetch("http://localhost:5000/adminPage", {
+        method: "GET",
+        credentials: "include",
+      });
       const data = await response.json();
+      console.log(data);
       updateList(data);
     };
     fetchPendingList();
@@ -34,7 +38,10 @@ export default function List() {
     });
 
     const refreshList = async () => {
-      const response = await fetch("/adminPage");
+      const response = await fetch("http://localhost:5000/adminPage", {
+        method: "GET",
+        credentials: "include",
+      });
       const data = await response.json();
       updateList(data);
     };
@@ -42,6 +49,7 @@ export default function List() {
   };
 
   const registerClub = () => {
+    console.log("working");
     navigate("/club_creation");
   };
 

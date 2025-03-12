@@ -56,19 +56,19 @@ function Registration({ onSuccess, existing }) {
       let response;
       if (!existing) {
         console.log(formData);
-        response = await fetch("/register-club", {
+        response = await fetch("http://localhost:5000/register-club", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", // Add this header
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
           credentials: "include",
         });
       } else {
-        response = await fetch(`/update/${existing}`, {
+        response = await fetch(`http://localhost:5000/update/${existing}`, {
           method: "PATCH",
           headers: {
-            "Content-Type": "application/json", // Add this header
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
           credentials: "include",

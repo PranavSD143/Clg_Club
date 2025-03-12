@@ -1,5 +1,5 @@
 /* General Layout */
-.clubs-container {
+.clubsContainer {
   font-family: "Poppins", sans-serif;
   background: #0d0d0d;
   color: white;
@@ -8,7 +8,7 @@
 }
 
 /* Title Styling */
-.clubs-title {
+.clubsTitle {
   font-size: 3rem;
   font-weight: bold;
   margin: 40px 0;
@@ -19,7 +19,7 @@
 }
 
 /* Category Styling */
-.category-title {
+.categoryTitle {
   font-size: 2rem;
   margin: 30px 0;
   text-transform: uppercase;
@@ -30,7 +30,7 @@
 }
 
 /* Clubs Grid */
-.clubs-grid {
+.clubsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
@@ -39,19 +39,19 @@
 }
 
 @media (max-width: 1024px) {
-  .clubs-grid {
+  .clubsGrid {
       grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .clubs-grid {
+  .clubsGrid {
       grid-template-columns: repeat(1, 1fr);
   }
 }
 
 /* Club Card Styling */
-.club-card {
+.clubCard {
   position: relative;
   border-radius: 15px;
   overflow: hidden;
@@ -62,13 +62,13 @@
   cursor: pointer;
 }
 
-.club-card:hover {
+.clubCard:hover {
   transform: scale(1.08);
   box-shadow: 0px 15px 40px rgba(255, 72, 72, 0.6);
 }
 
 /* Glowing Overlay Effect */
-.club-overlay {
+.clubOverlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -80,12 +80,12 @@
   transition: background 0.3s ease-in-out;
 }
 
-.club-card:hover .club-overlay {
+.clubCard:hover .club-overlay {
   background: rgba(255, 72, 72, 0.4);
 }
 
 /* Club Image */
-.club-image {
+.clubImage {
   width: 100%;
   border-radius: 10px;
   position: relative;
@@ -93,19 +93,19 @@
 }
 
 /* Club Info */
-.club-info {
+.clubInfo {
   position: relative;
   z-index: 3;
   padding-top: 10px;
 }
 
-.club-info h3 {
+.clubInfo h3 {
   font-size: 1.5rem;
   text-transform: uppercase;
   font-weight: bold;
 }
 
-.club-info p {
+.clubInfo p {
   font-size: 1rem;
   opacity: 0.8;
 }

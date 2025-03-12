@@ -1,28 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../css/Headers.css";
+import styles from "../css/Headers.module.css";
 import Search from "./Search";
 import logo from "../images/nitte_logo1.png";
 
 function Header() {
   return (
-    <header className="header">
-      <nav className="nav-bar">
+    <header className={styles.header}>
+      <nav className={styles.navBar}>
         {/* Left side: Logo */}
-        <div className="nav-left">
+        <div className={styles.navLeft}>
           <Link to="/">
-            <img src={logo} alt="Logo" className="nav-logo" />
+            <img src={logo} alt="Logo" className={styles.navLogo} />
           </Link>
         </div>
 
         {/* Right side: Navigation links */}
-        <div className="nav-right">
+        <div className={styles.navRight}>
           <Link to="/">
-            <div className="li-styling">Home</div>
+            <div className={styles.liStyling}>Home</div>
           </Link>
           <Link to="/adminPage">
             <div
-              className="li-styling"
+              className={styles.liStyling}
               style={{ backgroundColor: "white", color: "black" }}>
               Login
             </div>

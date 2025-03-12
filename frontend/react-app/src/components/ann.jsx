@@ -10,12 +10,6 @@ const Ann = () => {
     { id: 1, title: "Card 1", color: "bg-red-500", image: logo },
     { id: 2, title: "Card 2", color: "bg-blue-500", image: logo },
     { id: 3, title: "Card 3", color: "bg-green-500", image: logo },
-    {
-      id: 4,
-      title: "Card 4",
-      color: "bg-yellow-500",
-      image: "/images/card4.jpg",
-    },
   ];
 
   return (

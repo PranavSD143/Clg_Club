@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import Clubs from "./Pages/Clubs";
 import Login from "./Pages/Login";
@@ -21,8 +21,34 @@ function FormWrapper({ authenticated }) {
   return authenticated ? <Form existing={id} /> : <NoPage />;
 }
 
+// export default async function Authentication({ children }) {
+//   const response = await fetch("http://localhost:5000/authenticate", {
+//     method: "GET",
+//     credentials: "include",
+//   });
+//   const result = await response.json();
+//   console.log(result);
+//   return result.status == "success" ? children[0] : children[1];
+// }
+
 export default function App() {
-  const [authenticated, authenticate] = useState(false);
+  // const [authenticated, authenticate] = useState(false);
+  // useEffect(() => {
+  //   console.log(authenticated);
+  //   async function authentication() {
+  //     const response = await fetch("http://localhost:5000/authenticate", {
+  //       method: "GET",
+  //       credentials: "include",
+  //     });
+  //     const result = await response.json();
+  //     console.log(result);
+  //     if (result.status == "success") {
+  //       authenticate(true);
+  //     } else authenticate(false);
+  //   }
+  //   authentication();
+  // }, [authenticated]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -31,7 +57,11 @@ export default function App() {
         <Route path="/clubs" element={<Clubs />} />
         <Route
           path="/adminPage"
-          element={<Login isAuthenticated={authenticate} />}
+          element={
+            <Authentication>
+              <Login isAuthenticated={authenticate} /> <List />
+            </Authentication>
+          }
         />
         <Route
           path="/textbox/:id"
@@ -43,11 +73,10 @@ export default function App() {
         <Route
           path="/club_creation"
           element={
-            authenticated ? (
+            <Authentication>
               <ClubCreation />
-            ) : (
               <Login isAuthenticated={authenticate} />
-            )
+            </Authentication>
           }
         />
         <Route path="/list" element={authenticated ? <List /> : <NoPage />} />

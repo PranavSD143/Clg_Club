@@ -4,6 +4,7 @@ import path from "path";
 import pg from "pg";
 import env from "dotenv";
 import bcrypt from "bcrypt";
+import cors from "cors";
 import { fileURLToPath } from "url";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
@@ -34,12 +35,20 @@ app.use(
     cookies: {
       secure: false,
       maxAge: 1000 * 60 * 60 * 24,
+      httpOnly: true,
+      sameSite: "None"
     },
   })
 );
 
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials:true
+}));
 
 passport.use(
   "local",
@@ -288,6 +297,7 @@ app.get(`/club/:id`, async (req, res) => {
 });
 
 app.get("/adminPage", async (req, res) => {
+  console.log(req.user);
   if (req.isAuthenticated()) {
     const id = req.user.id;
     const result = await db.query(
@@ -295,8 +305,31 @@ app.get("/adminPage", async (req, res) => {
       [id]
     );
     res.status(200).json(result.rows);
-  } else res.status(404).json({ status: "failes" });
+  } else res.status(404).json({ status: "failing" });
 });
+
+app.get("/search-results/:text",async(req,res)=>{
+
+  const {text} = req.params;
+
+  try{
+    const searchTerm = `%${text}%`;
+    const response = await db.query("SELECT * FROM clubs Where club_name ILIKE $1 OR club_info ILIKE $1",[searchTerm]);
+    const data = response.rows;
+    res.status(200).json(data);
+  }
+  catch(error){
+    res.status(500).send("Error occured");
+    console.log(error);
+  }
+});
+
+app.get("/authenticate",(req,res)=>{
+  if(req.isAuthenticated())
+    res.status(200).json({status:"success"});
+  else
+    res.json({status:"failed"});
+})
 
 app.listen(5000, () => {
   console.log(`Running at port 5000`);

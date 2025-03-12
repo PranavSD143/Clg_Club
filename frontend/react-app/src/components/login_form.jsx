@@ -8,7 +8,7 @@ function LoginForm({ status, authenticate }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("/login", {
+    const response = await fetch("http://localhost:5000/login", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -16,7 +16,6 @@ function LoginForm({ status, authenticate }) {
     });
 
     const data = await response.json();
-    console.log(data);
 
     if (data.success) {
       status(true);
