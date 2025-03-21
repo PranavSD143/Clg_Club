@@ -22,9 +22,6 @@
   margin-right: 20px; /* Space between logo and links */
 }
 
-#logoContainer{
-
-}
 .navBar a{
   text-decoration: none;
 }
@@ -34,8 +31,8 @@
 
 .header{
   background:rgba(0,0,0,0.3);
-  z-index: 4;
-  position:fixed;
+  z-index: 100;
+  position: sticky;
   top:0;
   left:0;
   width:100%;
@@ -46,6 +43,6 @@
   margin-bottom:0.7rem;
   border: 1px solid black;
   padding:0.6rem 0.9rem;
-  background-color: #0A5EB0;
+  background-color: #282e95;
   color: white;
 }

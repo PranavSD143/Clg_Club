@@ -2,6 +2,9 @@ import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import "../css/carousel.css";
+import name from "../images/fountain.jpg";
+import nmit from "../images/nmit.jpg";
+import campus from "../images/campus.jpg";
 
 const MyCarousel = () => {
   return (
@@ -15,13 +18,13 @@ const MyCarousel = () => {
       showStatus={false}
       infiniteLoop={true}>
       <div className="carousel-content">
-        <img src="https://placehold.co/300x200" />
+        <img src={campus} />
       </div>
       <div className="carousel-content">
-        <img src="https://placehold.co/300x200" />
+        <img src={nmit} />
       </div>
       <div className="carousel-content">
-        <img src="https://placehold.co/300x200" />
+        <img src={name} />
       </div>
     </Carousel>
   );

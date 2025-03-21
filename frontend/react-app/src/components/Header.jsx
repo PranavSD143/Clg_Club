@@ -4,13 +4,13 @@ import styles from "../css/Headers.module.css";
 import Search from "./Search";
 import logo from "../images/nitte_logo1.png";
 
-function Header({ log }) {
+function Header({ log, auth }) {
   return (
     <header className={styles.header}>
       <nav className={styles.navBar}>
         {/* Left side: Logo */}
         <div className={styles.navLeft}>
-          <Link to="/">
+          <Link to={auth ? "adminPage" : "/"}>
             <img src={logo} alt="Logo" className={styles.navLogo} />
           </Link>
         </div>
@@ -18,19 +18,23 @@ function Header({ log }) {
         {/* Right side: Navigation links */}
         <div className={styles.navRight}>
           <Link to="/">
-            <div className={styles.liStyling}>Home</div>
+            {!auth && <div className={styles.liStyling}>Home</div>}
           </Link>
           <Link to="/adminPage">
-            <div
-              className={styles.liStyling}
-              style={{ backgroundColor: "white", color: "black" }}>
-              Login
-            </div>
+            {!auth && (
+              <div
+                className={styles.liStyling}
+                style={{ backgroundColor: "white", color: "black" }}>
+                Login
+              </div>
+            )}
           </Link>
           <Link to="/logout">
-            <div className={styles.liStyling} onClick={log}>
-              Logout
-            </div>
+            {auth && (
+              <div className={styles.liStyling} onClick={log}>
+                Logout
+              </div>
+            )}
           </Link>
           <Search />
         </div>

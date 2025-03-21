@@ -102,10 +102,10 @@ function CustomQuillEditor({ register }) {
 
         const data = await response.json();
 
-        if (data && data[0]?.club_info && quillInstance) {
+        if (data && data?.club_info && quillInstance) {
           // Extract club_info and catchy_phrase from backend response
-          const clubInfo = data[0].club_info || "";
-          const catchyPhrase = data[0].catchy_phrase || "";
+          const clubInfo = data.club_info || "";
+          const catchyPhrase = data.catchy_phrase || "";
 
           // Merge both into one formatted HTML content
           const fullContent = `${clubInfo} <br><strong>Catchy Phrase:</strong> ${catchyPhrase}`;

@@ -13,11 +13,15 @@ export default function Home() {
     <div>
       <MyCarousel />
       <Marquee speed={90} className={styles.marqueeContainer}>
-        Sample text for testing
+        <div class="marqueeContainer">
+          <span class="marqueeText">
+            Welcome to the Future of Coding ! &nbsp; Join Us Today ! &nbsp;
+          </span>
+        </div>
+        &nbsp;NMIT HACKS is coming your way{" "}
       </Marquee>
       <Cards />
       <Ann />
-      <Footer />
     </div>
   );
 }

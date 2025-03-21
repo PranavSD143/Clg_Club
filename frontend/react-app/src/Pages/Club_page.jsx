@@ -1,10 +1,26 @@
-import React, { useEffect } from "react";
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import "../css/ClubPage.css";
+import { useParams } from "react-router-dom";
 
 const ClubPage = () => {
+  const [data, change] = useState({});
+  const { id } = useParams();
   useEffect(() => {
     // Load particles.js
+    async function details() {
+      try {
+        const response = await fetch(`http://localhost:5000/club/${id}`, {
+          method: "GET",
+          credentials: "include",
+        });
+        const result = await response.json();
+        change(result);
+      } catch (error) {
+        console.log("Fucked up");
+      }
+    }
+    details();
+
     const script = document.createElement("script");
     script.src = "https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js";
     script.async = true;
@@ -14,12 +30,12 @@ const ClubPage = () => {
           number: { value: 90, density: { enable: true, value_area: 800 } },
           color: {
             value: [
-              "#ff0000",
-              "#00ff00",
-              "#0000ff",
-              "#ffcc00",
-              "#ff00ff",
-              "#00ffff",
+              "#282e95",
+              "#282e95",
+              "#282e95",
+              "#282e95",
+              "#282e95",
+              "#282e95",
             ],
           },
           shape: { type: "circle" },
@@ -48,7 +64,7 @@ const ClubPage = () => {
       });
     };
     document.body.appendChild(script);
-  }, []);
+  }, [id]);
 
   return (
     <div>
@@ -57,7 +73,7 @@ const ClubPage = () => {
         <div id="dynamic-effects"></div>
         <div className="dim-overlay"></div>
         <div className="primary-content">
-          <h1>Welcome to the NMIT Coding Club</h1>
+          <h1>Welcome to {data.club_name}</h1>
           <p>Empowering students with technology and innovation</p>
           <button className="call-to-action">Join Now</button>
         </div>
@@ -66,11 +82,7 @@ const ClubPage = () => {
       {/* About Section */}
       <section className="insight-section">
         <h2 className="shiny-heading">About Us</h2>
-        <p>
-          The NMIT Coding Club is a student-led initiative dedicated to
-          fostering a culture of learning, collaboration, and innovation. Join
-          us to explore coding, hackathons, and real-world tech projects.
-        </p>
+        <p>{data.club_info}</p>
       </section>
 
       {/* Events Section */}
@@ -79,16 +91,18 @@ const ClubPage = () => {
 
         <div className="gathering-container">
           <div className="highlight-box">
-            <img src="ss.png" alt="Hackathon 2025" />
             <h3>Hackathon 2025</h3>
-            <p>Date: March 20, 2025 | Venue: NMIT Auditorium</p>
+            <p>
+              Date: March 20, 2025 <br></br> Venue: NMIT Auditorium
+            </p>
             <button className="discover-btn">Register</button>
           </div>
 
           <div className="highlight-box">
-            <img src="cs.jpg" alt="AI & ML Bootcamp" />
             <h3>AI & ML Bootcamp</h3>
-            <p>Date: April 5, 2025 | Venue: Lab 101</p>
+            <p>
+              Date: April 5, 2025 <br></br>Venue: Lab 101
+            </p>
             <button className="discover-btn">Learn More</button>
           </div>
         </div>
@@ -113,22 +127,6 @@ const ClubPage = () => {
           </li>
         </ul>
       </section>
-
-      {/* Footer */}
-      <footer className="bottom-section">
-        <div className="icon-links">
-          <a href="#">
-            <FaFacebook />
-          </a>
-          <a href="#">
-            <FaInstagram />
-          </a>
-          <a href="#">
-            <FaTwitter />
-          </a>
-        </div>
-        <p>© 2025 NMIT Coding Club. All rights reserved.</p>
-      </footer>
     </div>
   );
 };

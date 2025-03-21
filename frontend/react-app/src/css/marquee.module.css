@@ -1,4 +1,26 @@
-.marqueeContainer{
-  margin-top:1em;
+.marqueeContainer {
   font-size: 2rem;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #282e95, #0a74da);
+  color: white;
+  padding: 10px 0;
+  position: relative;
+}
+
+.marqueeText {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marqueeScroll 10s linear infinite;
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }

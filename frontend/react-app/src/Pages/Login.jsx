@@ -25,7 +25,6 @@ function Login({ isAuthenticated }) {
       ) : (
         <List />
       )}
-      <Footer />
     </div>
   );
 }

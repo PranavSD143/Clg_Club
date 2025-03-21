@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import loginForm from "../css/login_form.module.css";
+import "../css/login_form.css";
 
 function LoginForm({ status, authenticate }) {
   const [email, setEmail] = useState("");
@@ -26,26 +26,55 @@ function LoginForm({ status, authenticate }) {
   };
 
   return (
-    <form className={loginForm.loginForm} onSubmit={handleSubmit}>
-      <input
-        type="email"
-        placeholder="Email"
-        name="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        name="password"
-        required
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div className="loginForm" onSubmit={handleSubmit}>
+      <form className="floating-form">
+        <h2>Login</h2>
+        <div className="input-group">
+          <input
+            type="email"
+            name="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label>Email Address</label>
+        </div>
+        <div className="input-group">
+          <input
+            type="password"
+            name="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <label>Password</label>
+        </div>
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
   );
 }
 
 export default LoginForm;
+
+{
+  /* <form className={loginForm.loginForm} onSubmit={handleSubmit}>
+  <input
+    type="email"
+    placeholder="Email"
+    name="email"
+    required
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+  />
+  <input
+    type="password"
+    placeholder="Password"
+    name="password"
+    required
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+  <button type="submit">Login</button>
+</form>; */
+}

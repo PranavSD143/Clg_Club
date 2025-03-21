@@ -10,12 +10,40 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import session from "express-session";
 import passport from "passport";
+import multer from "multer";
+import fs from "fs";
 
 const app = express();
 env.config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use("/uploads", express.static("uploads", {
+  setHeaders: (res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS"); // Allow only necessary methods
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  }
+}));
+
+app.use("/uploads",express.static("uploads"));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Save images in the "uploads" folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.clubName + path.extname(file.originalname.split(req.body.clubName)[0])); // Rename file
+  },
+});
+
+const upload = multer({ storage: storage });
+
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
+}
+
 
 const db = new pg.Client({
   host: process.env.HOST,
@@ -50,6 +78,7 @@ app.use(
     credentials: true,
   })
 );
+
 
 passport.use(
   "local",
@@ -210,10 +239,11 @@ app.get("/card-details", async (req, res) => {
   res.status(200).json(result.rows);
 });
 
-app.post("/register-club", async (req, res) => {
+app.post("/register-club",upload.single("logo"), async (req, res) => {
   const data = req.body;
   console.log(data);
   const userId = req.user.id;
+  const logoPath = req.file?`/uploads/${req.file.filename}`:null;
 
   try {
     const result = await db.query(
@@ -225,7 +255,7 @@ app.post("/register-club", async (req, res) => {
         data.contactNo,
         "In progress",
         "In progress",
-        "In progress",
+        logoPath,
         data.nature,
       ]
     );
@@ -266,13 +296,14 @@ app.patch("/info/:id", async (req, res) => {
   }
 });
 
-app.patch("/update/:id", async (req, res) => {
+app.patch("/update/:id",upload.single("logo"), async (req, res) => {
   const { id } = req.params;
   const data = req.body;
+  const logoPath = req.file?`/uploads/${req.file.filename}`:null;
   try {
     const result = await db.query(
-      "UPDATE CLUBS SET club_name = $1 , president = $2 , vice_president = $3 , contact_no = $4 WHERE id = $5 RETURNING id",
-      [data.clubName, data.presidentName, data.vp, data.contactNo, id]
+      "UPDATE CLUBS SET club_name = $1 , president = $2 , vice_president = $3 , contact_no = $4 , picture = $5 WHERE id = $6 RETURNING id",
+      [data.clubName, data.presidentName, data.vp, data.contactNo,logoPath, id]
     );
     console.log(result.rows);
     res.status(200).json({

@@ -29,6 +29,13 @@ function Registration({ onSuccess, existing }) {
         updatePresidentName(data.president);
         updatevpName(data.vice_president);
         updateNo(Number(data.contact_no));
+        const image = await fetch(`http://localhost:5000${data.picture}`, {
+          method: "GET",
+        });
+        const blob = await image.blob();
+        const filename = data.picture.split("/").pop();
+        const file = new File([blob], filename, { type: blob.type });
+        setLogo(file);
         setClubType(data.club_type || "Select Club Type");
       }
     }
@@ -36,6 +43,7 @@ function Registration({ onSuccess, existing }) {
   }, [existing]);
 
   const handleFileChange = (event) => {
+    console.log(typeof event.target.files[0]);
     setLogo(event.target.files[0]);
   };
 
@@ -45,39 +53,33 @@ function Registration({ onSuccess, existing }) {
       !presidentName ||
       !vp ||
       !contactNo ||
-      // !logo ||
+      !logo ||
       clubType === "Select Club Type"
     ) {
       change(true);
       return;
     }
 
-    const formData = {
-      clubName: clubName,
-      presidentName: presidentName,
-      vp: vp,
-      contactNo: contactNo,
-      nature: clubType,
-    };
+    const formData = new FormData();
+    formData.append("clubName", clubName);
+    formData.append("presidentName", presidentName);
+    formData.append("vp", vp);
+    formData.append("contactNo", contactNo);
+    formData.append("nature", clubType);
+    formData.append("logo", logo);
 
     try {
       let response;
       if (!existing) {
         response = await fetch("http://localhost:5000/register-club", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formData,
           credentials: "include",
         });
       } else {
         response = await fetch(`http://localhost:5000/update/${existing}`, {
           method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formData,
           credentials: "include",
         });
       }

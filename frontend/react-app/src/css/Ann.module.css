@@ -1,7 +1,0 @@
-.card {
-  @apply w-40 h-40 rounded-xl flex items-center justify-center text-white text-lg font-bold cursor-pointer relative overflow-hidden;
-}
-
-.image {
-  @apply absolute inset-0 w-full h-full object-cover rounded-xl;
-}

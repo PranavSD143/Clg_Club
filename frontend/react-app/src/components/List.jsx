@@ -62,9 +62,6 @@ export default function List() {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}>
-      <button className={styles.customButton} onClick={registerClub}>
-        Register Club
-      </button>
       <ul className={styles.clubList}>
         {list.map((entry) => (
           <li key={entry.club_name} className={styles.clubItem}>
@@ -83,6 +80,9 @@ export default function List() {
           </li>
         ))}
       </ul>
+      <button className={styles.customButton} onClick={registerClub}>
+        Register Club
+      </button>
     </div>
   );
 }

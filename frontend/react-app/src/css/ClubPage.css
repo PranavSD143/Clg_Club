@@ -14,24 +14,25 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgb(0, 0, 0);
 }
 
 .unique-hero h1 {
-  font-size: 50px;
+  font-size: 4rem; /* 60px converted to rem */
   font-weight: bold;
   margin: 0;
 }
 
 .unique-hero p {
-  font-size: 20px;
+  font-size: 1.5rem; /* 24px converted to rem */
   margin: 10px 0;
 }
 
 /* Ensure Content Stays Above Particles */
 .primary-content {
   position: relative;
-  z-index: 10;  /* Increased to stay above particles */
+  z-index: 10;
+  color: white; /* Ensuring white text */
 }
 
 /* Make Sure Particles Stay Behind */
@@ -39,7 +40,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 1;  /* Lower z-index */
+  z-index: 1;
 }
 
 /* Button Styling */
@@ -47,31 +48,34 @@
   background: transparent;
   color: gold;
   width: 25%;
-  padding: 10px 20px;
+  padding: 0.75rem 1.5rem; /* 12px 24px converted */
   border: 2px solid gold;
-  font-size: 16px;
+  font-size: 1.125rem; /* 18px converted */
   cursor: pointer;
   transition: 0.3s;
   border-radius: 8px;
-  position: relative;  /* Ensure it stays on top */
-  z-index: 11;  /* Even higher than primary-content */
+  position: relative;
+  z-index: 11;
 }
 
 .call-to-action:hover {
   background: gold;
-  color: black;
+  color: white;
 }
 
 /* Sections */
 .insight-section,
 .gatherings,
 .advantages {
-  padding: 60px 20px;
+  padding: 3.75rem 1.25rem; /* 60px 20px converted */
+  background-color: rgb(0, 0, 0);
   text-align: center;
+  color: white; /* Changed to white */
+  font-size: 1.5rem; /* Increased size for normal text */
 }
 
 .shiny-heading {
-  font-size: 35px;
+  font-size: 3rem; /* 40px converted */
   color: gold;
 }
 
@@ -79,8 +83,8 @@
 .gathering-container {
   display: flex;
   justify-content: center;
-  gap: 30px;
-  padding: 40px;
+  gap: 1.875rem; /* 30px converted */
+  padding: 2.5rem; /* 40px converted */
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -88,13 +92,15 @@
 /* Cards */
 .highlight-box {
   background: rgba(255, 215, 0, 0.2);
-  padding: 20px;
+  padding: 1.25rem; /* 20px converted */
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
   text-align: center;
   max-width: 400px;
   flex: 1;
   transition: transform 0.3s ease-in-out;
+  color: white; /* Changed to white */
+  font-size: 1.5rem; /* Increased size for readability */
 }
 
 .highlight-box:hover {
@@ -104,15 +110,16 @@
 .highlight-box img {
   width: 100%;
   border-radius: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 1rem; /* 15px converted */
 }
 
 .discover-btn {
+  margin-top: 10%;
   background: transparent;
   color: gold;
-  padding: 10px 20px;
+  padding: 0.75rem 1.5rem; /* 12px 24px converted */
   border: 2px solid gold;
-  font-size: 16px;
+  font-size: 1.125rem; /* 18px converted */
   cursor: pointer;
   transition: 0.3s;
   border-radius: 8px;
@@ -120,7 +127,7 @@
 
 .discover-btn:hover {
   background: gold;
-  color: black;
+  color: white;
 }
 
 /* Responsive */
@@ -134,14 +141,16 @@
 /* Footer */
 .bottom-section {
   text-align: center;
-  padding: 20px;
+  padding: 1.25rem; /* 20px converted */
   background: black;
+  color: white; /* Changed to white */
+  font-size: 1.5rem; /* Increased size */
 }
 
 .icon-links a {
   color: gold;
-  font-size: 24px;
-  margin: 0 10px;
+  font-size: 1.75rem; /* 28px converted */
+  margin: 0 0.625rem; /* 10px converted */
   transition: 0.3s;
 }
 

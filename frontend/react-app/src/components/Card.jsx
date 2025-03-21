@@ -43,8 +43,8 @@ const CollegeClubs = () => {
                 style={{ backgroundColor: "#E74C3C" }}>
                 <div className={styles.clubOverlay}></div>
                 <img
-                  src={club.picture}
-                  alt={club.club_name}
+                  src={`http://localhost:5000${club.picture}`}
+                  alt="Club Logo"
                   className={styles.clubImage}
                 />
                 <div className={styles.clubInfo}>
@@ -67,8 +67,8 @@ const CollegeClubs = () => {
                 style={{ background: club.color }}>
                 <div className={styles.clubOverlay}></div>
                 <img
-                  src={club.picture}
-                  alt={club.club_name}
+                  src={`http://localhost:5000${club.picture}`}
+                  alt="Club Logo"
                   className={styles.clubImage}
                 />
                 <div className={styles.clubInfo}>

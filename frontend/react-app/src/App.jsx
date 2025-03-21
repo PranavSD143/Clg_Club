@@ -11,6 +11,7 @@ import ClubPage from "./Pages/Club_page";
 import NoPage from "./Pages/NoPage";
 import ClubCreation from "./Pages/club_creation";
 import Blank from "./components/Card";
+import Footer from "./components/Footer";
 
 function TextboxWrapper({ authenticated }) {
   const { id } = useParams(); // Retrieve the ID here
@@ -50,7 +51,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Header log={logout} />
+      <Header log={logout} auth={authenticated} />
       <Routes>
         <Route path="/blank" element={<Blank />} />
         <Route path="/" element={<Home />} />
@@ -85,6 +86,7 @@ export default function App() {
         />
         <Route path="/logout" element={!authenticated ? <Home /> : <List />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
