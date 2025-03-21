@@ -1,11 +1,23 @@
 import React from "react";
-import "../css/footer.css";
+import styles from "../css/footer.module.css";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
 function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="footer-container">
-      <div>{year}</div>
+    <footer className={styles.bottomSection}>
+      <div className={styles.iconLinks}>
+        <a href="#">
+          <FaFacebook />
+        </a>
+        <a href="#">
+          <FaInstagram />
+        </a>
+        <a href="#">
+          <FaTwitter />
+        </a>
+      </div>
+      <div className={styles.year}>{year}</div>
     </footer>
   );
 }

@@ -1,0 +1,37 @@
+/* .footerContainer{
+  height:5rem;
+  background-color:rgba(0,0,0,0.3) ;
+} */
+
+.bottomSection {
+  text-align: center;
+  padding: 20px;
+  background: black;
+  display:flex;
+  justify-content: flex-end;
+  gap:42em;
+  width:100%;
+  height:5em;
+}
+
+.iconLinks{
+  display:flex;
+  justify-content: center;
+  gap:2rem;
+}
+
+.iconLinks a {
+  color: gold;
+  font-size: 24px;
+  margin: 0 10px;
+  transition: 0.3s;
+}
+
+.iconLinks a:hover {
+  color: darkgoldenrod;
+}
+
+.year {
+  color: white;
+  white-space: nowrap; /* Prevents line break */
+}

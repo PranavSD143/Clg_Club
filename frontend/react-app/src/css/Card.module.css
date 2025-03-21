@@ -1,0 +1,117 @@
+/* General Layout */
+.clubsContainer {
+  font-family: "Poppins", sans-serif;
+  background: #0d0d0d;
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+/* Title Styling */
+.clubsTitle {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 40px 0;
+  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0px 0px 15px rgba(255, 72, 72, 0.8);
+}
+
+/* Category Styling */
+.categoryTitle {
+  font-size: 2rem;
+  margin: 30px 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 3px solid #ff416c;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* Clubs Grid */
+.clubsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  justify-content: center;
+  padding: 30px;
+}
+
+@media (max-width: 1024px) {
+  .clubsGrid {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .clubsGrid {
+      grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* Club Card Styling */
+.clubCard {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 20px;
+  color: white;
+  box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.clubCard:hover {
+  transform: scale(1.08);
+  box-shadow: 0px 15px 40px rgba(255, 72, 72, 0.6);
+}
+
+/* Glowing Overlay Effect */
+.clubOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  z-index: 1;
+  transition: background 0.3s ease-in-out;
+}
+
+.clubCard:hover .club-overlay {
+  background: rgba(255, 72, 72, 0.4);
+}
+
+/* Club Image */
+.clubImage {
+  width: 100%;
+  border-radius: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Club Info */
+.clubInfo {
+  position: relative;
+  z-index: 3;
+  padding-top: 10px;
+}
+
+.clubInfo h3 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.clubInfo p {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Error Message */
+.error {
+  font-size: 1.2rem;
+  color: #ff4b2b;
+}

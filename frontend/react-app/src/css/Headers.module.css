@@ -1,0 +1,48 @@
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Pushes content to edges */
+  padding: 10px 20px;
+  background-color: #F8F9FA;
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Adds space between links */
+}
+
+.navLogo {
+  height: 50px; /* Adjust logo size */
+  margin-right: 20px; /* Space between logo and links */
+}
+
+.navBar a{
+  text-decoration: none;
+}
+.navBar div:hover{
+  cursor: pointer;
+}
+
+.header{
+  background:rgba(0,0,0,0.3);
+  z-index: 100;
+  position: sticky;
+  top:0;
+  left:0;
+  width:100%;
+}
+
+.liStyling{
+  margin-top:0.7rem;
+  margin-bottom:0.7rem;
+  border: 1px solid black;
+  padding:0.6rem 0.9rem;
+  background-color: #282e95;
+  color: white;
+}

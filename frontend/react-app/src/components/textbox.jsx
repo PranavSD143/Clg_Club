@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Quill from "quill/core";
 import "quill/dist/quill.snow.css";
+import styles from "../css/textbox.css";
 
 import Toolbar from "quill/modules/toolbar";
 import Snow from "quill/themes/snow";
@@ -93,7 +94,7 @@ function CustomQuillEditor({ register }) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`/club/${register}`, {
+        const response = await fetch(`http://localhost:5000/club/${register}`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -101,10 +102,10 @@ function CustomQuillEditor({ register }) {
 
         const data = await response.json();
 
-        if (data && data[0]?.club_info && quillInstance) {
+        if (data && data?.club_info && quillInstance) {
           // Extract club_info and catchy_phrase from backend response
-          const clubInfo = data[0].club_info || "";
-          const catchyPhrase = data[0].catchy_phrase || "";
+          const clubInfo = data.club_info || "";
+          const catchyPhrase = data.catchy_phrase || "";
 
           // Merge both into one formatted HTML content
           const fullContent = `${clubInfo} <br><strong>Catchy Phrase:</strong> ${catchyPhrase}`;
@@ -142,7 +143,7 @@ function CustomQuillEditor({ register }) {
 
   const entry = async () => {
     console.log(register);
-    const xyz = await fetch(`/info/${register}`, {
+    const xyz = await fetch(`http://localhost:5000/info/${register}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",

@@ -1,26 +1,43 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../css/Headers.css";
+import styles from "../css/Headers.module.css";
 import Search from "./Search";
+import logo from "../images/nitte_logo1.png";
 
-function Header() {
+function Header({ log, auth }) {
   return (
-    <header className="header">
-      <nav className="nav-bar">
-        <Link to="/">
-          <div className="li-styling">Home</div>
-        </Link>
-        <Link to="/clubs">
-          <div className="li-styling">Clubs</div>
-        </Link>
-        <Link to="/adminPage">
-          <div
-            className="li-styling"
-            style={{ backgroundColor: "white", color: "black" }}>
-            Login
-          </div>
-        </Link>
-        <Search />
+    <header className={styles.header}>
+      <nav className={styles.navBar}>
+        {/* Left side: Logo */}
+        <div className={styles.navLeft}>
+          <Link to={auth ? "adminPage" : "/"}>
+            <img src={logo} alt="Logo" className={styles.navLogo} />
+          </Link>
+        </div>
+
+        {/* Right side: Navigation links */}
+        <div className={styles.navRight}>
+          <Link to="/">
+            {!auth && <div className={styles.liStyling}>Home</div>}
+          </Link>
+          <Link to="/adminPage">
+            {!auth && (
+              <div
+                className={styles.liStyling}
+                style={{ backgroundColor: "white", color: "black" }}>
+                Login
+              </div>
+            )}
+          </Link>
+          <Link to="/logout">
+            {auth && (
+              <div className={styles.liStyling} onClick={log}>
+                Logout
+              </div>
+            )}
+          </Link>
+          <Search />
+        </div>
       </nav>
     </header>
   );

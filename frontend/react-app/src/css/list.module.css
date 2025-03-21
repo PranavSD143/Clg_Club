@@ -1,0 +1,80 @@
+/* General Styles */
+.rootContainer {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container */
+.mainContainer {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height:100%;
+  text-align: center;
+}
+
+/* Button Styling */
+.customButton {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 10px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: bold;
+}
+
+.customButton:hover {
+  background: #0056b3;
+}
+
+/* List Styling */
+.clubList {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.clubItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.clubItem:hover {
+  transform: scale(1.02);
+}
+
+.statusLabel {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .clubItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .customButton {
+    width: 100%;
+  }
+}

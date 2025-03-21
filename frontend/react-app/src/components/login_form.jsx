@@ -8,7 +8,7 @@ function LoginForm({ status, authenticate }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("/login", {
+    const response = await fetch("http://localhost:5000/login", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -16,7 +16,6 @@ function LoginForm({ status, authenticate }) {
     });
 
     const data = await response.json();
-    console.log(data);
 
     if (data.success) {
       status(true);
@@ -27,26 +26,55 @@ function LoginForm({ status, authenticate }) {
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      <input
-        type="email"
-        placeholder="Email"
-        name="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        name="password"
-        required
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div className="loginForm" onSubmit={handleSubmit}>
+      <form className="floating-form">
+        <h2>Login</h2>
+        <div className="input-group">
+          <input
+            type="email"
+            name="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label>Email Address</label>
+        </div>
+        <div className="input-group">
+          <input
+            type="password"
+            name="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <label>Password</label>
+        </div>
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
   );
 }
 
 export default LoginForm;
+
+{
+  /* <form className={loginForm.loginForm} onSubmit={handleSubmit}>
+  <input
+    type="email"
+    placeholder="Email"
+    name="email"
+    required
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+  />
+  <input
+    type="password"
+    placeholder="Password"
+    name="password"
+    required
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+  <button type="submit">Login</button>
+</form>; */
+}

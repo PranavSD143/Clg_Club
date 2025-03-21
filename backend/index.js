@@ -4,17 +4,46 @@ import path from "path";
 import pg from "pg";
 import env from "dotenv";
 import bcrypt from "bcrypt";
+import cors from "cors";
 import { fileURLToPath } from "url";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import session from "express-session";
 import passport from "passport";
+import multer from "multer";
+import fs from "fs";
 
 const app = express();
 env.config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use("/uploads", express.static("uploads", {
+  setHeaders: (res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS"); // Allow only necessary methods
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  }
+}));
+
+app.use("/uploads",express.static("uploads"));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Save images in the "uploads" folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.clubName + path.extname(file.originalname.split(req.body.clubName)[0])); // Rename file
+  },
+});
+
+const upload = multer({ storage: storage });
+
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
+}
+
 
 const db = new pg.Client({
   host: process.env.HOST,
@@ -34,12 +63,22 @@ app.use(
     cookies: {
       secure: false,
       maxAge: 1000 * 60 * 60 * 24,
+      httpOnly: true,
+      sameSite: "None",
     },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 
 passport.use(
   "local",
@@ -160,6 +199,24 @@ app.post(
   }
 );
 
+app.post("/logout", (req, res) => {
+    // if (error) {
+    //   return res.status(500).json({ status: "Logout error", message: error });
+    // }
+  console.log("Reached");
+    req.session.destroy((error) => {
+      if (error) {
+        return res.status(500).json({ status: "Server side logout error" });
+      }
+
+      res.clearCookie("connect.sid");
+      return res.status(200).json({status:"Success"});
+    });
+  }
+  );
+
+
+
 app.get("/About us", (req, res) => {
   //About us page
 });
@@ -182,14 +239,15 @@ app.get("/card-details", async (req, res) => {
   res.status(200).json(result.rows);
 });
 
-app.post("/register-club", async (req, res) => {
+app.post("/register-club",upload.single("logo"), async (req, res) => {
   const data = req.body;
-  console.log(req.user);
+  console.log(data);
   const userId = req.user.id;
+  const logoPath = req.file?`/uploads/${req.file.filename}`:null;
 
   try {
     const result = await db.query(
-      "INSERT INTO CLUBS(club_name,president,vice_president,contact_no,club_info,catchy_phrase,picture) values ($1,$2,$3,$4,$5,$6,$7) RETURNING id",
+      "INSERT INTO CLUBS(club_name,president,vice_president,contact_no,club_info,catchy_phrase,picture,nature) values ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id",
       [
         data.clubName,
         data.presidentName,
@@ -197,7 +255,8 @@ app.post("/register-club", async (req, res) => {
         data.contactNo,
         "In progress",
         "In progress",
-        "In progress",
+        logoPath,
+        data.nature,
       ]
     );
     await db.query(
@@ -223,7 +282,7 @@ app.patch("/info/:id", async (req, res) => {
   try {
     const result = await db.query(
       "UPDATE clubs SET club_info = $1, catchy_phrase = $2 WHERE id = $3",
-      [data.club_info,data.catchy_phrase, id]
+      [data.club_info, data.catchy_phrase, id]
     );
     const register = await db.query(
       "UPDATE registration SET status = 'completed' WHERE id = $1",
@@ -237,13 +296,14 @@ app.patch("/info/:id", async (req, res) => {
   }
 });
 
-app.patch("/update/:id", async (req, res) => {
+app.patch("/update/:id",upload.single("logo"), async (req, res) => {
   const { id } = req.params;
   const data = req.body;
+  const logoPath = req.file?`/uploads/${req.file.filename}`:null;
   try {
     const result = await db.query(
-      "UPDATE CLUBS SET club_name = $1 , president = $2 , vice_president = $3 , contact_no = $4 WHERE id = $5 RETURNING id",
-      [data.clubName, data.presidentName, data.vp, data.contactNo,id]
+      "UPDATE CLUBS SET club_name = $1 , president = $2 , vice_president = $3 , contact_no = $4 , picture = $5 WHERE id = $6 RETURNING id",
+      [data.clubName, data.presidentName, data.vp, data.contactNo,logoPath, id]
     );
     console.log(result.rows);
     res.status(200).json({
@@ -256,17 +316,17 @@ app.patch("/update/:id", async (req, res) => {
   }
 });
 
-app.delete('/delete/:id',async(req,res)=>{
-  const {id} = req.params;
-  await db.query("DELETE FROM CLUBS WHERE id = $1",[id]);
-  await db.query("DELETE FROM REGISTRATION WHERE id = $1",[id]);
+app.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  await db.query("DELETE FROM CLUBS WHERE id = $1", [id]);
+  await db.query("DELETE FROM REGISTRATION WHERE id = $1", [id]);
   res.status(200).json("Success");
-})
+});
 
-// app.get("/achievements", async (req, res) => {
-//   const result = await db.query("SELECT * from achievements");
-//   res.status(200).json(result.rows);
-// });
+app.get("/achievements", async (req, res) => {
+  const result = await db.query("SELECT * from achievements");
+  res.status(200).json(result.rows);
+});
 
 app.get("/clubs", async (req, res) => {
   const result = await db.query("SELECT * FROM clubs");
@@ -279,7 +339,8 @@ app.get(`/club/:id`, async (req, res) => {
   console.log(id);
   try {
     const result = await db.query("SELECT * FROM CLUBS where id = $1", [id]);
-    const response = result.rows;
+    const response = result.rows[0];
+    console.log(response);
     res.status(200).json(response);
   } catch {
     res.status(500).send("Error occured");
@@ -294,7 +355,29 @@ app.get("/adminPage", async (req, res) => {
       [id]
     );
     res.status(200).json(result.rows);
-  } else res.status(404).json({ status: "failes" });
+  } else res.status(404).json({ status: "failing" });
+});
+
+app.get("/search-results/:text", async (req, res) => {
+  const { text } = req.params;
+
+  try {
+    const searchTerm = `%${text}%`;
+    const response = await db.query(
+      "SELECT * FROM clubs Where club_name ILIKE $1 OR club_info ILIKE $1",
+      [searchTerm]
+    );
+    const data = response.rows;
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).send("Error occured");
+    console.log(error);
+  }
+});
+
+app.get("/authenticate", (req, res) => {
+  if (req.isAuthenticated()) res.status(200).json({ status: "success" });
+  else res.json({ status: "failed" });
 });
 
 app.listen(5000, () => {

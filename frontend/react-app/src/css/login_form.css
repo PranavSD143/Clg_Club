@@ -1,7 +1,84 @@
-.login-form{
+.loginForm {
   display:flex;
   flex-direction: column;
   height:100vh;
   justify-content: center;
   align-items: center;
+}
+
+.floating-form {
+  background: #1a1a1a;
+  padding: 2.5rem;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  color: white;
+}
+
+.floating-form .input-group {
+  position: relative;
+  margin: 2rem 0;
+}
+
+.floating-form input {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-bottom: 2px solid #444;
+  background: transparent;
+  color: white;
+  outline: none;
+}
+
+.floating-form label {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  transition: 0.3s;
+  pointer-events: none;
+}
+
+.floating-form input:focus ~ label,
+.floating-form input:valid ~ label {
+  top: -10px;
+  font-size: 0.8rem;
+  color: #8B5CF6;
+}
+
+.floating-form input:focus {
+  border-bottom-color: #8B5CF6;
+}
+
+.floating-form button {
+  width: 100%;
+  padding: 1rem;
+  background: #8B5CF6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-top: 2rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.floating-form button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.floating-form button:hover::after {
+  width: 300px;
+  height: 300px;
 }

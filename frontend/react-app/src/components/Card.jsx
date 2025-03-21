@@ -1,103 +1,87 @@
 import React, { useState, useEffect } from "react";
-import DOMPurify from "dompurify"; // Import DOMPurify
-import "../css/Card.css";
+import { Link } from "react-router-dom";
+import DOMPurify from "dompurify";
+import styles from "../css/Card.module.css";
 
-const Card = () => {
-  const [activeCard, setActiveCard] = useState(null);
+const getTextSnippet = (html, length) => {
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = DOMPurify.sanitize(html);
+  return tempDiv.textContent.slice(0, length) + "...";
+};
+
+const CollegeClubs = () => {
   const [cards, setCards] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const response = await fetch("/card-details");
+        const response = await fetch("http://localhost:5000/card-details");
         if (!response.ok) throw new Error("Failed to fetch card details");
-
         const data = await response.json();
         setCards(data);
       } catch (err) {
         setError(err.message);
       }
     };
-
     fetchCards();
   }, []);
 
-  const handleClick = (id) => setActiveCard(id);
-  const handleClose = () => setActiveCard(null);
-
-  const getTextSnippet = (html, length) => {
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = DOMPurify.sanitize(html); // Sanitize input to prevent XSS
-    return tempDiv.textContent.slice(0, length) + "..."; // Extract text and slice
-  };
-
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div className={styles.error}>Error: {error}</div>;
 
   return (
-    <div className="card-container">
-      {cards.map(
-        ({
-          club_name,
-          catchy_phrase,
-          president,
-          vice_president,
-          cardId,
-          club_info,
-          picture,
-        }) => {
-          const isActive = activeCard === cardId;
+    <div className={styles.clubsContainer}>
+      <h2 className={styles.clubsTitle}>Explore College Clubs</h2>
 
-          return (
-            <div key={cardId} className={`card ${isActive ? "active" : ""}`}>
-              {isActive ? (
-                <div className="expanded-card-content">
-                  {/* HEADER SECTION */}
-                  <div className="expanded-card-header">
-                    <h2 className="club-name">{club_name}</h2>
-                    <img className="club-logo" src={picture} alt="Club Logo" />
-                  </div>
-
-                  {/* GRID SECTION */}
-                  <div className="expanded-card-grid">
-                    <div className="catchy-phrase">{catchy_phrase}</div>
-                    <div
-                      className={`club-info ${isActive ? "active" : ""}`}
-                      dangerouslySetInnerHTML={{ __html: club_info }}></div>
-                    <div className="leader-info">
-                      <div className="president">President: {president}</div>
-                      <div className="vice-president">
-                        Vice President: {vice_president}
-                      </div>
-                    </div>
-                  </div>
+      <h3 className={styles.categoryTitle}>Technical Clubs</h3>
+      <div className={styles.clubsGrid}>
+        {cards.map((club) =>
+          club.nature.trim().toLowerCase() === "technical" ? (
+            <Link to={`/club/${club.id}`} key={club.id}>
+              <div
+                className={styles.clubCard}
+                style={{ backgroundColor: "#E74C3C" }}>
+                <div className={styles.clubOverlay}></div>
+                <img
+                  src={`http://localhost:5000${club.picture}`}
+                  alt="Club Logo"
+                  className={styles.clubImage}
+                />
+                <div className={styles.clubInfo}>
+                  <h3>{club.club_name}</h3>
+                  <p>{getTextSnippet(club.club_info, 30)}</p>
                 </div>
-              ) : (
-                <>
-                  {/* Default Card View */}
-                  <header className="card-header">
-                    <div className="club-name">{club_name}</div>
-                    <img src={picture} alt="Poster image" />
-                  </header>
-                  <p className="invisible">{catchy_phrase}</p>
-                  <p className="heads invisible">{president}</p>
-                  <p className="heads invisible">{vice_president}</p>
-                  {/* Display only a safe, plain-text snippet */}
-                  <div className="club-info">
-                    {getTextSnippet(club_info, 50)}
-                  </div>
-                  <button onClick={() => handleClick(cardId)}>Read More</button>
-                </>
-              )}
-            </div>
-          );
-        }
-      )}
-      {activeCard !== null && (
-        <div className="overlay" onClick={handleClose}></div>
-      )}
+              </div>
+            </Link>
+          ) : null
+        )}
+      </div>
+
+      <h3 className={styles.categoryTitle}>Non-Technical Clubs</h3>
+      <div className={styles.clubsGrid}>
+        {cards.map((club) =>
+          club.nature.trim().toLowerCase() === "non technical" ? (
+            <Link to={`/club/${club.id}`} key={club.id}>
+              <div
+                className={styles.clubCard}
+                style={{ background: club.color }}>
+                <div className={styles.clubOverlay}></div>
+                <img
+                  src={`http://localhost:5000${club.picture}`}
+                  alt="Club Logo"
+                  className={styles.clubImage}
+                />
+                <div className={styles.clubInfo}>
+                  <h3>{club.club_name}</h3>
+                  <p>{getTextSnippet(club.club_info, 30)}</p>
+                </div>
+              </div>
+            </Link>
+          ) : null
+        )}
+      </div>
     </div>
   );
 };
 
-export default Card;
+export default CollegeClubs;
