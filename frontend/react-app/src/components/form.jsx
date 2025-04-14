@@ -108,63 +108,79 @@ function Registration({ onSuccess, existing }) {
       style={{ backgroundImage: `url(${moonImage})` }}>
       <div className={styles.lunarPanel}>
         <h2 className={styles.solarTitle}>Register a New Club</h2>
-        <label className={styles.orbitTags}>Upload Logo:</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className={styles.astralUpload}
-          required
-        />
-        <div>
-          <label className={styles.orbitTags}>Club Name:</label>
-          <input
-            type="text"
-            value={clubName ?? ""}
-            onChange={(e) => updateName(e.target.value)}
-            className={styles.galacticField}
-          />
-        </div>
-        <div>
-          <label className={styles.orbitTags}>Club Type:</label>
-          <select
-            value={clubType}
-            onChange={(e) => setClubType(e.target.value)}
-            className={styles.galacticField}>
-            <option>Select Club Type</option>
-            <option>Technical</option>
-            <option>Non Technical</option>
-          </select>
-        </div>
-        <div>
-          <label className={styles.orbitTags}>President:</label>
-          <input
-            type="text"
-            value={presidentName ?? ""}
-            onChange={(e) => updatePresidentName(e.target.value)}
-            className={styles.galacticField}
-          />
-        </div>
-        <div>
-          <label className={styles.orbitTags}>Vice-President:</label>
-          <input
-            type="text"
-            value={vp ?? ""}
-            onChange={(e) => updatevpName(e.target.value)}
-            className={styles.galacticField}
-          />
-        </div>
-        <div>
-          <label className={styles.orbitTags}>Contact No:</label>
-          <input
-            type="number"
-            value={contactNo}
-            onChange={(e) => updateNo(e.target.value)}
-            minLength={10}
-            maxLength={10}
-            className={styles.galacticField}
-          />
-        </div>
+        <div className={styles.uploadContainer}>
+        <label className={styles.orbitTags}>Upload Logo</label>
+    <input
+      type="file"
+      accept="image/*"
+      onChange={handleFileChange}
+      className={styles.astralUpload}
+      required
+    />
+
+  </div>
+  <div>
+  {/* First Row: Club Name and Club Type */}
+  <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+    <div style={{ flex: 1 }}>
+      <label className={styles.orbitTags}>Club Name</label>
+      <input
+        type="text"
+        value={clubName ?? ""}
+        onChange={(e) => updateName(e.target.value)}
+        className={styles.galacticField}
+      />
+    </div>
+    <div style={{ width: "14em" }}>
+      <label className={styles.orbitTags}>Club Type</label>
+      <select
+        value={clubType}
+        onChange={(e) => setClubType(e.target.value)}
+        className={styles.clubNature}
+      >
+        <option>Select Club Type</option>
+        <option>Technical</option>
+        <option>Non Technical</option>
+      </select>
+    </div>
+  </div>
+
+  {/* Second Row: President and Vice-President */}
+  <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
+    <div style={{ flex: 1 }}>
+      <label className={styles.orbitTags}>President</label>
+      <input
+        type="text"
+        value={presidentName ?? ""}
+        onChange={(e) => updatePresidentName(e.target.value)}
+        className={styles.galacticField}
+      />
+    </div>
+    <div style={{ flex: 1 }}>
+      <label className={styles.orbitTags}>Vice-President</label>
+      <input
+        type="text"
+        value={vp ?? ""}
+        onChange={(e) => updatevpName(e.target.value)}
+        className={styles.galacticField}
+      />
+    </div>
+  </div>
+
+  {/* Third Row: Contact No */}
+  <div style={{ marginTop: '1rem' }}>
+    <label className={styles.orbitTags}>Contact No</label>
+    <input
+      type="number"
+      value={contactNo}
+      onChange={(e) => updateNo(e.target.value)}
+      minLength={10}
+      maxLength={10}
+      className={styles.galacticField}
+    />
+  </div>
+</div>
+
         <button onClick={handleSubmit} className={styles.jupiterTrigger}>
           Proceed
         </button>

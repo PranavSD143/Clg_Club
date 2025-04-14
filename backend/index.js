@@ -351,7 +351,7 @@ app.get("/adminPage", async (req, res) => {
   if (req.isAuthenticated()) {
     const id = req.user.id;
     const result = await db.query(
-      "SELECT * FROM REGISTRATION WHERE userId = $1",
+      "SELECT * FROM REGISTRATION WHERE userid = $1",
       [id]
     );
     res.status(200).json(result.rows);

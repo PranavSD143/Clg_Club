@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {useRef,useState,useEffect} from "react";
 import Quill from "quill/core";
 import "quill/dist/quill.snow.css";
 import styles from "../css/textbox.css";
+import bgimg from "../images/Moon2011.png";
 
 import Toolbar from "quill/modules/toolbar";
 import Snow from "quill/themes/snow";
